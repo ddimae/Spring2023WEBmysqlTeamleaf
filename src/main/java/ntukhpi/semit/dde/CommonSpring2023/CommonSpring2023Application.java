@@ -26,11 +26,9 @@ public class CommonSpring2023Application {
 	EmployeeRepository employeeRepository;
 	@Bean
 	public CommandLineRunner CommandLineRunnerBean() {
-
 		return (args) -> {
-			System.out.println("In CommandLineRunnerImpl ");
-			TestEmployee();
-
+//			System.out.println("In CommandLineRunnerImpl ");
+//			TestEmployee();
 		};
 	}
 
