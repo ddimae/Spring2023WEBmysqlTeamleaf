@@ -1,7 +1,10 @@
 package ntukhpi.semit.dde.CommonSpring2023.controller;
 
 import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
+import ntukhpi.semit.dde.CommonSpring2023.entity.INN;
 import ntukhpi.semit.dde.CommonSpring2023.service.EmployeeService;
+import ntukhpi.semit.dde.CommonSpring2023.service.INNService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +23,12 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    private final INNService innService;
+
+    public EmployeeController(EmployeeService employeeService,INNService innService) {
         super();
         this.employeeService = employeeService;
+        this.innService = innService;
     }
 
     // handler method to handle list students and return mode and view
@@ -74,6 +80,16 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
         return "redirect:/employees";
+    }
+
+    @GetMapping("/employees/info/{id}")
+    public String infoEmployeeForm(@PathVariable Long id, Model model) {
+        Employee empl = employeeService.getEmployeeById(id);
+        System.out.println(empl);
+        INN inn = innService.getINNByOwner(empl);
+        System.out.println(inn);
+        model.addAttribute("inn", inn);
+        return "info_employee";
     }
 
 

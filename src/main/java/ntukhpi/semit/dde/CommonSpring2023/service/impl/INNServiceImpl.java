@@ -1,5 +1,6 @@
 package ntukhpi.semit.dde.CommonSpring2023.service.impl;
 
+import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
 import ntukhpi.semit.dde.CommonSpring2023.entity.INN;
 import ntukhpi.semit.dde.CommonSpring2023.repository.INNRepository;
 import ntukhpi.semit.dde.CommonSpring2023.service.INNService;
@@ -39,5 +40,10 @@ public class INNServiceImpl implements INNService {
     @Override
     public void deleteINNById(Long id) {
         innRepository.deleteById(id);
+    }
+
+    @Override
+    public INN getINNByOwner(Employee empl) {
+        return innRepository.getINNByOwner(empl);
     }
 }
