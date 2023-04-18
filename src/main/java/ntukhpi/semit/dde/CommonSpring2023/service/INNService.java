@@ -17,4 +17,5 @@ public interface INNService {
     void deleteINNById(Long id);
 
     INN getINNByOwner(Employee empl);
+
 }

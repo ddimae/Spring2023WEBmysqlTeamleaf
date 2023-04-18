@@ -4,13 +4,15 @@ import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
 import ntukhpi.semit.dde.CommonSpring2023.entity.INN;
 import ntukhpi.semit.dde.CommonSpring2023.service.EmployeeService;
 import ntukhpi.semit.dde.CommonSpring2023.service.INNService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDate;
+import java.util.Random;
 
 @Controller
 public class EmployeeController {
@@ -82,15 +84,78 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
+    //For work with INN
+
+    // handler method to handle Info button click
     @GetMapping("/employees/info/{id}")
     public String infoEmployeeForm(@PathVariable Long id, Model model) {
-        Employee empl = employeeService.getEmployeeById(id);
-        System.out.println(empl);
-        INN inn = innService.getINNByOwner(empl);
-        System.out.println(inn);
+        Employee owner = employeeService.getEmployeeById(id);
+        //System.out.println(owner);
+        INN inn = innService.getINNByOwner(owner);
+        if (inn==null) {
+            // create INN object to hold inn form data
+            inn = new INN(-1l, 2000000000l, "",
+                    LocalDate.of(LocalDate.now().getYear() - owner.getAge() + 18,1,1),
+                    owner);
+        }
+        //System.out.println(inn);
         model.addAttribute("inn", inn);
+        model.addAttribute("idEmpl", id);
+        model.addAttribute("editmode", false);
         return "info_employee";
     }
 
+    // handler method to handle Update and Add Inn button click
+    @GetMapping("/employees/info/{id}/edit")
+    public String editINNMode(@PathVariable Long id, Model model) {
+        Employee owner = employeeService.getEmployeeById(id);
+        //System.out.println(owner);
+        INN inn = innService.getINNByOwner(owner);
+        if (inn==null) {
+            // create INN object to hold inn form data
+            inn = new INN(-1l, 2000000000l, "",
+                    LocalDate.of(LocalDate.now().getYear() - owner.getAge() + 18,1,1),
+                    owner);
+        }
+        //System.out.println(inn);
+        model.addAttribute("inn", inn);
+        model.addAttribute("idEmpl", id);
+        model.addAttribute("editmode", true);
+        return "info_employee";
+    }
+
+    // handler method to handle Save button click
+    @PostMapping("/employees/info/{id}/confirm")
+    public String confirmEditINN(@PathVariable Long id,
+                                 @ModelAttribute("inn") INN inn,
+                                 Model model) {
+        Employee owner = employeeService.getEmployeeById(id);
+        INN innToUpdate = innService.getINNByOwner(owner);
+        if (innToUpdate!=null) {
+            //LOOK aT YOUR CLASS!!!!
+            innToUpdate.setNumber(inn.getNumber());
+            innToUpdate.setDateIssued(inn.getDateIssued());
+            innToUpdate.setIssued(inn.getIssued());
+            // save updated innToUpdate object
+            innService.updateINN(innToUpdate);
+        } else {
+            inn.setOwner(owner);
+            innService.insert(inn);
+        }
+        return "redirect:/employees/info/{id}";
+    }
+
+    // handler method to handle delete inn request
+    @PostMapping("/employees/info/{id}")
+    public String deleteINN(@PathVariable Long id) {
+        Employee owner = employeeService.getEmployeeById(id);
+        INN innToDelete = innService.getINNByOwner(owner);
+        innService.deleteINNById(innToDelete.getId());
+        return "redirect:/employees/info/{id}";
+    }
 
 }
+
+
+
+

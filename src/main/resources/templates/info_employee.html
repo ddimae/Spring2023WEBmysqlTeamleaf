@@ -29,55 +29,96 @@
 </nav>
 <br>
 <br>
-<div class = "container">
-    <div class = "row">
-        <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <h1 class = "text-center"> Additional Info about Employee </h1>
-            <div class = "card-body">
-                <form th:action="@{/employees}" th:object = "${inn}" method="POST">
-                    <div class ="form-group">
-                        <label>INN Number:</label>
-                        <input  required
-                                type = "text"
-                                name = "number"
-                                th:field = "*{number}"
-                                class = "form-control"
-                                placeholder="Input surname an English"
-                                pattern="[23][0-9]{9}" title="10 numbers, first - 2 or 3"
-                        />
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center"> Additional Info about Employee </h1>
+            <!-- IF INN Absent -->
+            <div th:if="${(inn.id == -1) and (editmode == false)}">
+                <div class="box-footer">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <form th:action="@{/employees/info/{id}/edit(id=${idEmpl})}">
+                                    <button type="submit" class = "btn btn-primary">
+                                        Add INN
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- ELSE -->
+            <div th:if="${(inn.id > 0) or ((inn.id == -1) and (editmode == true))}">
+                <div th:if="${editmode == false}" class="box-footer">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <form th:action="@{/employees/info/{id}/edit(id=${idEmpl})}">
+                                    <button type="submit" class = "btn btn-primary">
+                                        Update
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/employees/info/{id}(id=${idEmpl})}" method="POST">
+                                    <button type="submit" class = "btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/employees/info/{id}/confirm(id=${idEmpl})}" th:object="${inn}" method="POST">
+                        <div class="form-group">
+                            <label>INN Number:</label>
+                            <input required
+                                   type="text"
+                                   name="number"
+                                   th:field="*{number}"
+                                   class="form-control"
+                                   placeholder="Input surname an English"
+                                   pattern="[23][0-9]{9}" title="10 numbers, first - 2 or 3"
+                            />
+                        </div>
 
-                    <div class ="form-group">
-                        <label>Date of issue INN:</label>
-                        <input  required
-                                type = "date"
-                                name = "dateIssued"
-                                th:field = "*{dateIssued}"
-                                class = "form-control"
-                                placeholder="Date of issue the INN"
-                        />
-                    </div>
+                        <div class="form-group">
+                            <label>Date of issue INN:</label>
+                            <input required
+                                   type="date"
+                                   name="dateIssued"
+                                   th:field="*{dateIssued}"
+                                   class="form-control"
+                                   placeholder="Date of issue the INN"
+                            />
+                        </div>
 
-                    <div class ="form-group">
-                        <label>Whom issued:</label>
-                        <input  required
-                                type = "text"
-                                name = "issued"
-                                th:field = "*{issued}"
-                                class = "form-control"
-                                placeholder="Whom issued the INN like in document"
-                                title="Whom issued the INN"
-                        />
-                    </div>
-
-                   <!--<div class = "box-footer">
-                        <button type="submit" class = "btn btn-primary">
-                            Submit
-                        </button>
-                    </div>
-                    -->
-                </form>
-
+                        <div class="form-group">
+                            <label>Whom issued:</label>
+                            <input required
+                                   type="text"
+                                   name="issued"
+                                   th:field="*{issued}"
+                                   class="form-control"
+                                   placeholder="Whom issued the INN like in document"
+                                   title="Whom issued the INN"
+                            />
+                        </div>
+                        <div th:if="${editmode == true }" class="box-footer">
+                            <input hidden name="editmode" value="false">
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
