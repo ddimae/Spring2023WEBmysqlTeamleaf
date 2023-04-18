@@ -2,6 +2,7 @@ package ntukhpi.semit.dde.CommonSpring2023.service;
 
 import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
 import ntukhpi.semit.dde.CommonSpring2023.entity.Phone;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

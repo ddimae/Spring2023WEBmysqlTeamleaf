@@ -48,8 +48,8 @@ public class CommonSpring2023Application {
     @Bean
     public CommandLineRunner CommandLineRunnerBean() {
         return (args) -> {
-            System.out.println("In CommandLineRunnerImpl ");
-            TestEmployeeINNPhone();
+//            System.out.println("In CommandLineRunnerImpl ");
+//            TestEmployeeINNPhone();
         };
     }
 

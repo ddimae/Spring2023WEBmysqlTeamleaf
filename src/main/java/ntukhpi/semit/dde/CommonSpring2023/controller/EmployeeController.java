@@ -2,8 +2,10 @@ package ntukhpi.semit.dde.CommonSpring2023.controller;
 
 import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
 import ntukhpi.semit.dde.CommonSpring2023.entity.INN;
+import ntukhpi.semit.dde.CommonSpring2023.entity.Phone;
 import ntukhpi.semit.dde.CommonSpring2023.service.EmployeeService;
 import ntukhpi.semit.dde.CommonSpring2023.service.INNService;
+import ntukhpi.semit.dde.CommonSpring2023.service.PhoneService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
-import java.util.Random;
+import java.util.List;
 
 @Controller
 public class EmployeeController {
@@ -24,13 +26,15 @@ public class EmployeeController {
     }
 
     private final EmployeeService employeeService;
-
     private final INNService innService;
+    private final PhoneService phoneService;
 
-    public EmployeeController(EmployeeService employeeService,INNService innService) {
+    // Insert into constructor NESSESARY
+    public EmployeeController(EmployeeService employeeService, INNService innService, PhoneService phoneService) {
         super();
         this.employeeService = employeeService;
         this.innService = innService;
+        this.phoneService = phoneService;
     }
 
     // handler method to handle list students and return mode and view
@@ -84,7 +88,7 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    //For work with INN
+    //-------------------   For work with INN --------------------------
 
     // handler method to handle Info button click
     @GetMapping("/employees/info/{id}")
@@ -100,7 +104,7 @@ public class EmployeeController {
         }
         //System.out.println(inn);
         model.addAttribute("inn", inn);
-        model.addAttribute("idEmpl", id);
+        model.addAttribute("empl", owner);
         model.addAttribute("editmode", false);
         return "info_employee";
     }
@@ -119,7 +123,7 @@ public class EmployeeController {
         }
         //System.out.println(inn);
         model.addAttribute("inn", inn);
-        model.addAttribute("idEmpl", id);
+        model.addAttribute("empl", owner);
         model.addAttribute("editmode", true);
         return "info_employee";
     }
@@ -154,6 +158,19 @@ public class EmployeeController {
         return "redirect:/employees/info/{id}";
     }
 
+    //-------------------   For work with PHONES --------------------------
+    // handler method to handle Phones button click
+    @GetMapping("/employees/phones/{id}")
+    public String phonesEmployeeForm(@PathVariable Long id, Model model) {
+        Employee owner = employeeService.getEmployeeById(id);
+        System.out.println(owner);
+        List<Phone> phones = phoneService.getPhonesByOwner(owner);
+        System.out.println(phones);
+        model.addAttribute("phones", phones);
+        model.addAttribute("empl", owner);
+        //model.addAttribute("editmode", false);
+        return "phones_employee";
+    }
 }
 
 
