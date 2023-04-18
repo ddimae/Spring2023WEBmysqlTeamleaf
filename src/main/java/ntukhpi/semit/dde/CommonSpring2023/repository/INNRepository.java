@@ -1,10 +1,14 @@
 package ntukhpi.semit.dde.CommonSpring2023.repository;
 
 import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
+import ntukhpi.semit.dde.CommonSpring2023.entity.INN;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee,Long> {
-    Employee findByName(String name);
+public interface INNRepository extends JpaRepository<INN,Long> {
+
+    INN getINNByOwner(Employee owner);
+
+
 }

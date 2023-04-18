@@ -53,15 +53,14 @@
             <td>
                 <a th:href="@{/employees/edit/{id}(id=${employee.id})}"
                    class="btn btn-primary">Update</a>
-
                 <a th:href="@{/employees/{id}(id=${employee.id})}"
                    class="btn btn-danger">Delete</a>
+                <a th:href="@{/employees/info/{id}(id=${employee.id})}"
+                   class="btn btn-primary">Info</a>
             </td>
         </tr>
         </tbody>
-
     </table>
-
 </div>
 </body>
 </html>

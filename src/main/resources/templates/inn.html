@@ -1,0 +1,55 @@
+<!-- JSP tag<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>-->
+<html>
+<head>
+    <title>webHBN - INN</title>
+    <input type="hidden" name="id" value="${empl.id}" required>
+</head>
+<body>
+<center>
+    <h1>INN ${empl.name}</h1>
+    <table>
+        <tr>
+            <td>
+                <form action="add_inn">
+                    <button type="submit">
+                        Add INN
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form action="edit_inn">
+                    <button type="submit">
+                        Edit INN
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form action="del_inn">
+                    <button type="submit">
+                        Del INN
+                    </button>
+                </form>
+            </td>
+            <td>
+                <a href="/employees">To Employees</a>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>number</th>
+            <th>${empl.INN.number}</th>
+        </tr>
+        <tr>
+            <th>Issued date</th>
+            <th>${empl.INN.dateIssued}</th>
+        </tr>
+        <tr>
+            <th>issued</th>
+            <th>${empl.INN.issued}</th>
+        </tr>
+    </table>
+</center>
+</body>
+</html>
