@@ -2,8 +2,11 @@ package ntukhpi.semit.dde.CommonSpring2023.controller;
 
 import ntukhpi.semit.dde.CommonSpring2023.entity.Employee;
 import ntukhpi.semit.dde.CommonSpring2023.entity.INN;
+import ntukhpi.semit.dde.CommonSpring2023.entity.Phone;
+import ntukhpi.semit.dde.CommonSpring2023.entity.PhoneNumberType;
 import ntukhpi.semit.dde.CommonSpring2023.service.EmployeeService;
 import ntukhpi.semit.dde.CommonSpring2023.service.INNService;
+import ntukhpi.semit.dde.CommonSpring2023.service.PhoneService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
-import java.util.Random;
+import java.util.List;
 
 @Controller
 public class EmployeeController {
@@ -24,13 +27,15 @@ public class EmployeeController {
     }
 
     private final EmployeeService employeeService;
-
     private final INNService innService;
+    private final PhoneService phoneService;
 
-    public EmployeeController(EmployeeService employeeService,INNService innService) {
+    // Insert into constructor NESSESARY
+    public EmployeeController(EmployeeService employeeService, INNService innService, PhoneService phoneService) {
         super();
         this.employeeService = employeeService;
         this.innService = innService;
+        this.phoneService = phoneService;
     }
 
     // handler method to handle list students and return mode and view
@@ -39,11 +44,11 @@ public class EmployeeController {
         model.addAttribute("employees", employeeService.getAllEmployees());
         return "employees";
     }
-	
-	@GetMapping("/employees/new")
+
+    @GetMapping("/employees/new")
     public String createEmployeeForm(Model model) {
         // create Employee object to hold employee form data
-        Employee employee = new Employee(1l,"",true,18,10000.);
+        Employee employee = new Employee(-1l, "", true, 18, 10000.);
         model.addAttribute("employee", employee);
         return "create_employee";
     }
@@ -62,8 +67,8 @@ public class EmployeeController {
 
     @PostMapping("/employees/{id}")
     public String updateEmployee(@PathVariable Long id,
-                                @ModelAttribute("employee") Employee employee,
-                                Model model) {
+                                 @ModelAttribute("employee") Employee employee,
+                                 Model model) {
         // get Employee from database by id
         Employee existingEmployee = employeeService.getEmployeeById(id);
         existingEmployee.setId(id);
@@ -84,7 +89,7 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    //For work with INN
+    //-------------------   For work with INN --------------------------
 
     // handler method to handle Info button click
     @GetMapping("/employees/info/{id}")
@@ -92,15 +97,15 @@ public class EmployeeController {
         Employee owner = employeeService.getEmployeeById(id);
         //System.out.println(owner);
         INN inn = innService.getINNByOwner(owner);
-        if (inn==null) {
+        if (inn == null) {
             // create INN object to hold inn form data
             inn = new INN(-1l, 2000000000l, "",
-                    LocalDate.of(LocalDate.now().getYear() - owner.getAge() + 18,1,1),
+                    LocalDate.of(LocalDate.now().getYear() - owner.getAge() + 18, 1, 1),
                     owner);
         }
         //System.out.println(inn);
         model.addAttribute("inn", inn);
-        model.addAttribute("idEmpl", id);
+        model.addAttribute("empl", owner);
         model.addAttribute("editmode", false);
         return "info_employee";
     }
@@ -111,15 +116,15 @@ public class EmployeeController {
         Employee owner = employeeService.getEmployeeById(id);
         //System.out.println(owner);
         INN inn = innService.getINNByOwner(owner);
-        if (inn==null) {
+        if (inn == null) {
             // create INN object to hold inn form data
             inn = new INN(-1l, 2000000000l, "",
-                    LocalDate.of(LocalDate.now().getYear() - owner.getAge() + 18,1,1),
+                    LocalDate.of(LocalDate.now().getYear() - owner.getAge() + 18, 1, 1),
                     owner);
         }
         //System.out.println(inn);
         model.addAttribute("inn", inn);
-        model.addAttribute("idEmpl", id);
+        model.addAttribute("empl", owner);
         model.addAttribute("editmode", true);
         return "info_employee";
     }
@@ -131,7 +136,7 @@ public class EmployeeController {
                                  Model model) {
         Employee owner = employeeService.getEmployeeById(id);
         INN innToUpdate = innService.getINNByOwner(owner);
-        if (innToUpdate!=null) {
+        if (innToUpdate != null) {
             //LOOK aT YOUR CLASS!!!!
             innToUpdate.setNumber(inn.getNumber());
             innToUpdate.setDateIssued(inn.getDateIssued());
@@ -152,6 +157,70 @@ public class EmployeeController {
         INN innToDelete = innService.getINNByOwner(owner);
         innService.deleteINNById(innToDelete.getId());
         return "redirect:/employees/info/{id}";
+    }
+
+    //-------------------   For work with PHONES --------------------------
+    // handler method to handle Phones button click
+    @GetMapping("/employees/phones/{id}")
+    public String phonesEmployeeForm(@PathVariable Long id, Model model) {
+        //System.out.println("==== phonesEmployeeForm ====");
+        Employee owner = employeeService.getEmployeeById(id);
+        //System.out.println(owner);
+        List<Phone> phones = phoneService.getPhonesByOwner(owner);
+        //System.out.println(phones);
+        model.addAttribute("phones", phones);
+        model.addAttribute("empl", owner);
+        return "phones_employee";
+    }
+
+    @GetMapping("/employees/phones/{id}/new")
+    public String createPhoneForm(@PathVariable Long id, Model model) {
+        //System.out.println("==== createPhoneForm ====");
+        Employee owner = employeeService.getEmployeeById(id);
+        //System.out.println(owner);
+        Phone phone = new Phone(-1l, "0001234567", PhoneNumberType.MOBILE, true, owner);
+        //System.out.println(phone);
+        model.addAttribute("newPhone", phone);
+        model.addAttribute("empl", owner);
+        return "create_phone";
+    }
+
+    @PostMapping("/employees/phones/{id}")
+    public String insertPhone(@PathVariable Long id, @ModelAttribute("phone") Phone phone) {
+        //System.out.println("==== insertPhone ====");
+        Employee owner = employeeService.getEmployeeById(id);
+        phone.setOwner(owner);
+        //System.out.println(owner);
+        //System.out.println(phone);
+        phoneService.insert(phone);
+        return "redirect:/employees/phones/{id}";
+    }
+
+    @GetMapping("/employees/phones/{idEmpl}/edit/{idPhone}")
+    public String editPhoneForm(@PathVariable Long idEmpl,
+                                @PathVariable Long idPhone,
+                                Model model) {
+        //System.out.println("==== updatePhoneForm ====");
+        Employee owner = employeeService.getEmployeeById(idEmpl);
+        //System.out.println(owner);
+        Phone updatePhone = phoneService.getPhoneById(idPhone);
+        //System.out.println(updatePhone);
+        model.addAttribute("updatePhone", updatePhone);
+        model.addAttribute("empl", owner);
+        return "edit_phone";
+    }
+
+    @GetMapping("/employees/phones/{idEmpl}/delete/{idPhone}")
+    public String deletePhoneForm(@PathVariable Long idEmpl,
+                                  @PathVariable Long idPhone,
+                                  Model model) {
+        //System.out.println("==== deletePhoneForm ====");
+        Employee owner = employeeService.getEmployeeById(idEmpl);
+        //System.out.println(owner);
+        Phone deletePhone = phoneService.getPhoneById(idPhone);
+        //System.out.println(deletePhone);
+        phoneService.deletePhoneNById(idPhone);
+        return "redirect:/employees/phones/{idEmpl}";
     }
 
 }

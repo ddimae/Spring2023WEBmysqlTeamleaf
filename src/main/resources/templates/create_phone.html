@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Spring2023</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Employee Management System</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/employees}">Employee Management</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/employees/phones/{id}(id=${empl.id})}">Phone list</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center"> Insert New Phone </h1>
+            <div class="card-body">
+                <form th:action="@{/employees/phones/{id}(id=${empl.id})}" th:object="${newPhone}" method="POST">
+                    <div class="form-group">
+                    <input required hidden type="text" name="id" th:field="*{id}"/>
+                </div>
+                    <div class="form-group">
+                        <label>Phone number:</label>
+                        <input required
+                               type="text"
+                               name="phoneNumber"
+                               th:field="*{phoneNumber}"
+                               placeholder="Input phone number"
+                               pattern="(050|057|062|066|067|068|073|091|095|096|097|098|099)[0-9]{7}"
+                               title="10 digits, UA operators without +38"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone type number:</label>
+                        <input checked="checked"
+                               type="radio"
+                               name="pol"
+                               th:field="*{phoneNumberType}"
+                               th:value="HOME"
+                        />HOME
+                        <input checked="checked"
+                               type="radio"
+                               name="pol"
+                               th:field="*{phoneNumberType}"
+                               th:value="MOBILE"
+                        />MOBILE
+                        <input checked="checked"
+                               type="radio"
+                               name="pol"
+                               th:field="*{phoneNumberType}"
+                               th:value="OFFICE"
+                        />OFFICE</p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Is Active: </label>
+                            <input checked="checked"
+                                   type="radio"
+                                   name="active"
+                                   th:field="*{activePhone}"
+                                   th:value="TRUE"
+                            />Active
+                            <input checked="checked"
+                                   type="radio"
+                                   name="active"
+                                   th:field="*{activePhone}"
+                                   th:value="FALSE"
+                            />Not active</p>
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Save
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
