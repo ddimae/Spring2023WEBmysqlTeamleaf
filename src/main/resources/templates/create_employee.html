@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>Student Management System</title>
+    <title>Spring2023</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -41,7 +41,6 @@
                                 type = "text"
                                 name = "name"
                                 th:field = "*{name}"
-                                class = "form-control"
                                 placeholder="Input surname an English"
                                 pattern="[A-Z][a-z]{1,14}" title="Required, Surname an English,
                                          first letter capital, other - small, no more 15"
@@ -54,7 +53,6 @@
                                 type = "number"
                                 name = "age"
                                 th:field = "*{age}"
-                                class = "form-control"
                                 min="18" max="75"
                                 placeholder="Age is integer value from 18 to 75"
                         />
@@ -73,7 +71,7 @@
                                 name = "pol"
                                 th:field = "*{pol}"
                                 th:value="FALSE"
-                        />Female</p>
+                        />FEMALE</p>
                     </div>
 
                     <div class ="form-group">
@@ -82,7 +80,6 @@
                                 type = "number"
                                 name = "salary"
                                 th:field = "*{salary}"
-                                class = "form-control"
                                 min="6500.00" step="100"
                                 placeholder="Enter salary"
                                 title="Input salary by template - 6500.00"
