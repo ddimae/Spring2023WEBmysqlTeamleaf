@@ -1,5 +1,6 @@
 package ntukhpi.semit.dde.CommonSpring2023.service.impl;
 
+import ntukhpi.semit.dde.CommonSpring2023.entity.ProgramLanguage;
 import ntukhpi.semit.dde.CommonSpring2023.entity.Team;
 import ntukhpi.semit.dde.CommonSpring2023.repository.TeamRepository;
 import ntukhpi.semit.dde.CommonSpring2023.service.TeamService;
@@ -43,8 +44,14 @@ public class TeamServiceImpl implements TeamService {
          teamRepository.deleteById(id);
     }
 
-//    @Override
-//    public Team getTeamByName(String teamCode) {
-//        return teamRepository.getTeamByTeamCod(teamCode);
-//    }
+    @Override
+    public Team getTeamByName(String teamCod) {
+        return teamRepository.findByTeamCod(teamCod);
+    }
+
+    @Override
+    public List<Team> getAllTeamsByPL(ProgramLanguage java) {
+        return teamRepository.findALLByPl(java);
+    }
+
 }
