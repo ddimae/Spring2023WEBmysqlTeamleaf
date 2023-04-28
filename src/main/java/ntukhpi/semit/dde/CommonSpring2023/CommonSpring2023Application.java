@@ -48,7 +48,7 @@ public class CommonSpring2023Application {
     @Bean
     public CommandLineRunner CommandLineRunnerBean() {
         return (args) -> {
-            TestEmployeeINNPhoneTeam();
+    //        TestEmployeeINNPhoneTeam();
         };
     }
 
@@ -535,7 +535,7 @@ public class CommonSpring2023Application {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Test Employee+Inn+Phones Spring ");
+        System.out.println("Test Employees+Inn+Phones+Teams Spring ");
         //inSERT Employee
         employeeService = new EmployeeServiceImpl(employeeRepository);
         String[] names = new String[]{"Zhuk", "Kot", "Gusin", "Zhatova", "Shatova", "Svatok", "Katz", "Kotov", "Lomov", "Popova"};
