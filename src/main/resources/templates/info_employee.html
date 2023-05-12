@@ -32,7 +32,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
                 <h1 class="text-center"> Employee INN</h1>
                 <!-- IF INN Absent -->
-                <div th:if="${(inn.id == -1) and (editmode == false)}">
+                <div th:if="${(inn.getId() == -1) and (editmode == false)}">
                     <div class="box-footer">
                         <table>
                             <tbody>
@@ -79,11 +79,12 @@
                                 <label>INN Number:</label>
                                 <input required
                                        type="text"
-                                       name="number"
+                                       name="numberINN"
                                        th:field="*{number}"
                                        class="form-control"
-                                       placeholder="Input surname an English"
-                                       pattern="[23][0-9]{9}" title="10 numbers, first - 2 or 3"
+                                       placeholder="Enter INN - 10 digits"
+                                       pattern="[23][0-9]{9}"
+                                       title="10 numbers, first - 2 or 3"
                                 />
                             </div>
 
@@ -121,5 +122,9 @@
             </div>
      </div>
 </div>
+
+<script>
+
+</script>
 </body>
 </html>
