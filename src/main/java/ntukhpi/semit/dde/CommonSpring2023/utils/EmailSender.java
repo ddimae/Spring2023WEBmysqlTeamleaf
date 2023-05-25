@@ -35,15 +35,15 @@ public class EmailSender {
         //////////////////////
         Properties props = new Properties();
         // Set debug so we see the whole communication with the server
-        props.put("mail.debug", "true");
+        props.setProperty("mail.debug", "false");
 
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.host", host);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "587");
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", host);
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.port", "587");
 
         // Enable STARTTLS
-        props.put("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.starttls.enable", "true");
 
         // Accept only TLS 1.1 and 1.2
         props.setProperty("mail.smtp.ssl.protocols", "TLSv1.1 TLSv1.2");
@@ -91,12 +91,12 @@ public class EmailSender {
         //////////////////////
         Properties props = new Properties();
         // Set debug so we see the whole communication with the server
-        props.put("mail.debug", "true");
+        props.setProperty("mail.debug", "true");
 
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.host", "smtp.gmail.com");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "587");
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.port", "587");
 
         // Enable STARTTLS
         props.put("mail.smtp.starttls.enable", "true");
