@@ -3,15 +3,13 @@ package ntukhpi.semit.dde.CommonSpring2023;
 import ntukhpi.semit.dde.CommonSpring2023.entity.auth.Role;
 import ntukhpi.semit.dde.CommonSpring2023.entity.auth.User;
 import ntukhpi.semit.dde.CommonSpring2023.repository.RoleRepository;
-import ntukhpi.semit.dde.CommonSpring2023.repository.TeamRepository;
 import ntukhpi.semit.dde.CommonSpring2023.repository.UserRepository;
-import ntukhpi.semit.dde.CommonSpring2023.service.TeamService;
+import ntukhpi.semit.dde.CommonSpring2023.utils.EmailSender;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,11 +25,19 @@ class CommonSpring2023ApplicationTests {
 	@Autowired
 	UserRepository userRepository;
 
-
 	@Test
 	void contextLoads() {
-
 	}
+
+	@Test
+	void testSendEmail() {
+		EmailSender.send();
+	}
+	@Test
+	void testSendEmail2() {
+		EmailSender.sendEmail("ddimae72@gmail.com", "test_file_from_results.txt");
+	}
+
 
 	@Test
 	void insertUsersRolesTest(){
@@ -76,7 +82,6 @@ class CommonSpring2023ApplicationTests {
 			}
 		}
 
-
 		User user2 = null;
 		Optional<User> optionalUser2 = null;
 		String passwordUser = passwordEncoder().encode("ramesh");
@@ -100,7 +105,6 @@ class CommonSpring2023ApplicationTests {
 		user2 = userRepository.findByUsernameOrEmail("", "ramesh@gmail.com").get();
 		assertEquals(user2.getRoles().size(),1);
 	}
-
 
 
 }
