@@ -38,11 +38,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployeeById(Long id) {
+
         employeeRepository.deleteById(id);
     }
 
     @Override
     public Employee getEmployeeByName(String name) {
         return employeeRepository.findByName(name);
+    }
+
+    @Override
+    public void saveEployeesToDB(List<Employee> list) {
+        list.stream().forEach(empl->{
+//            employeeRepository.save(empl);
+            Employee emplInDB = getEmployeeByName(empl.getName());
+            if (emplInDB==null) {
+                saveEmployee(empl);
+            } else {
+                emplInDB.setAge(empl.getAge());
+                emplInDB.setPol(empl.isPol());
+                emplInDB.setSalary(empl.getSalary());
+                updateEmployee(emplInDB);
+            }
+        });
     }
 }

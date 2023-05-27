@@ -3,8 +3,7 @@ package ntukhpi.semit.dde.CommonSpring2023.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.internal.build.AllowPrintStacktrace;
-import org.springframework.stereotype.Service;
+
 
 @Entity
 @Table(name = "employees")

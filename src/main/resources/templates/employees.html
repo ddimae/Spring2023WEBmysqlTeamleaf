@@ -25,8 +25,33 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <a th:href="@{/employees/new}" class="btn btn-primary btn-sm mb-3"> Add Employee</a>
+        </div>
+        <div class="col-lg-2">
+            <a th:href="@{/employees/download}" class="btn btn-primary btn-sm mb-3"> Download Employee List</a>
+        </div>
+        <div class="col-lg-6">
+            <form method="POST" enctype="multipart/form-data" action="/employees/upload">
+                <table>
+                    <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                    <tr><td></td><td><input type="submit" value="Upload Employee List" class="btn btn-primary btn-sm mb-3"/></td></tr>
+                </table>
+            </form>
+<!--            <form method="POST" enctype="multipart/form-data" action="/employees/upload">-->
+<!--                File to upload: <input type="file" name="file">-->
+<!--                <button type="submit" class="btn btn-primary btn-sm mb-3">-->
+<!--                    Upload Employee List-->
+<!--                </button>-->
+<!--            </form>-->
+        </div>
+        <div class="col-lg-6">
+            <form method="POST" action="/employees/send_email">
+                Send email to: <input type="email" name="email">
+                <button type="submit" class="btn btn-primary btn-sm mb-3">
+                    Send Employee List
+                </button>
+            </form>
         </div>
     </div>
 
@@ -54,7 +79,7 @@
                 <a th:href="@{/employees/edit/{id}(id=${employee.id})}"
                    class="btn btn-primary">Update</a>
                 <a th:href="@{/employees/{id}(id=${employee.id})}"
-                   class="btn btn-danger">Delete</a>
+                   class="btn btn-danger" onclick="return confirmation()">Delete</a>
                 <a th:href="@{/employees/info/{id}(id=${employee.id})}"
                    class="btn btn-primary">Info</a>
                 <a th:href="@{/employees/phones/{id}(id=${employee.id})}"
@@ -65,4 +90,10 @@
     </table>
 </div>
 </body>
+<script>
+    // For confirm deleting
+    function confirmation() {
+        return confirm('Are you sure you want to do this?');
+    }
+</script>
 </html>

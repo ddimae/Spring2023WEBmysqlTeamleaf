@@ -7,6 +7,11 @@ import ntukhpi.semit.dde.CommonSpring2023.entity.PhoneNumberType;
 import ntukhpi.semit.dde.CommonSpring2023.service.EmployeeService;
 import ntukhpi.semit.dde.CommonSpring2023.service.INNService;
 import ntukhpi.semit.dde.CommonSpring2023.service.PhoneService;
+import ntukhpi.semit.dde.CommonSpring2023.utils.ExcelUtilities;
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +19,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
+
+import static ntukhpi.semit.dde.CommonSpring2023.utils.EmailSender.rfc5987_encode;
 
 @Controller
 public class EmployeeController {

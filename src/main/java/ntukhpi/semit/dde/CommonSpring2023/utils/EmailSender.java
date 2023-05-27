@@ -15,6 +15,9 @@ import java.util.Properties;
 @Service
 @Log4j2
 public class EmailSender {
+    // EmailSender's email ID needs to be mentioned
+    private static final String from = "isppd.semit@gmail.com";//this my email => recommended to change
+    private static final String password = "jawnfwghzcbgsiyk";//password created after turn on two-factor authorization
 //  Created base on
 //  https://stackoverflow.com/questions/60654561/java-mail-cannot-connect-to-smtp-using-tls-or-ssl
 //  https://javarevisited.blogspot.com/2014/08/how-to-send-email-from-java-program-example.html#
@@ -26,16 +29,14 @@ public class EmailSender {
      */
     //  String to, String filename
     public static void sendEmail(String to, String filename) {
-        // EmailSender's email ID needs to be mentioned
-        final String from = "isppd.semit@gmail.com";//this my email => recommended to change
-        final String password = "jawnfwghzcbgsiyk";//password created after turn on two-factor authorization
+
 
         // Assuming you are sending email through relay.jangosmtp.net
         String host = "smtp.gmail.com";
         //////////////////////
         Properties props = new Properties();
-        // Set debug so we see the whole communication with the server
-        props.setProperty("mail.debug", "false");
+        // Set debug, so we see the whole communication with the server
+        props.setProperty("mail.debug", "true");
 
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", host);
@@ -60,7 +61,7 @@ public class EmailSender {
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText("Mail Body");
             Multipart multipart = new MimeMultipart();
-            DataSource source = new FileDataSource("results/"+filename); //Dictionary.RESULTS_FOLDER +
+            DataSource source = new FileDataSource(ExcelUtilities.RESULTS_FOLDER +filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(MimeUtility.encodeWord(filename));
             multipart.addBodyPart(messageBodyPart);
@@ -83,14 +84,9 @@ public class EmailSender {
     public static void send() {
         // Recipient's email ID needs to be mentioned.
         String to = "ddimae72@gmail.com";//change accordingly
-
-        // EmailSender's email ID needs to be mentioned
-        final String from = "isppd.semit@gmail.com";//change accordingly
-        final String password = "jawnfwghzcbgsiyk";//change accordingly
-
         //////////////////////
         Properties props = new Properties();
-        // Set debug so we see the whole communication with the server
+        // Set debug, so we see the whole communication with the server
         props.setProperty("mail.debug", "true");
 
         props.setProperty("mail.transport.protocol", "smtp");
@@ -125,10 +121,7 @@ public class EmailSender {
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(mimeBodyPart);
-
             message.setContent(multipart);
-            System.out.println("My message" + message);
-            System.out.println(message.getFrom());
             Transport.send(message);
 
         } catch (Exception e) {

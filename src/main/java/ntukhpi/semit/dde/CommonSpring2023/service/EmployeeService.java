@@ -12,4 +12,5 @@ public interface EmployeeService {
     void deleteEmployeeById(Long id);
     Employee getEmployeeByName(String name);
 
+    void saveEployeesToDB(List<Employee> listFromExcel);
 }

@@ -3,6 +3,7 @@ package ntukhpi.semit.dde.CommonSpring2023;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +44,26 @@ public class SpringSecurityConfig {
                                 .permitAll()
                 );
         return http.build();
+//        http.csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .antMatchers(HttpMethod.DELETE)
+//                .hasRole("ADMIN")
+//                .antMatchers("/admin/**")
+//                .hasAnyRole("ADMIN")
+//                .antMatchers("/user/**")
+//                .hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/login/**")
+//                .anonymous()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .httpBasic()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        return http.build();
     }
 
     @Bean

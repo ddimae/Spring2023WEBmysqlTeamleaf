@@ -35,7 +35,7 @@ class CommonSpring2023ApplicationTests {
 	}
 	@Test
 	void testSendEmail2() {
-		EmailSender.sendEmail("ddimae72@gmail.com", "test_file_from_results.txt");
+		EmailSender.sendEmail("dde.semit.ntukhpi@gmail.com", "employees.xlsx");
 	}
 
 
@@ -45,7 +45,7 @@ class CommonSpring2023ApplicationTests {
 		Role admin = null;
 		Optional<Role> adminOpt = roleRepository.findByName("ROLE_ADMIN");
 		if (!adminOpt.isPresent()) {
-			admin = new Role(1l, "ROLE_ADMIN");
+			admin = new Role(1L, "ROLE_ADMIN");
 			roleRepository.save(admin);
 		} else {
 			admin = adminOpt.get();
@@ -53,7 +53,7 @@ class CommonSpring2023ApplicationTests {
 		Role user = null;
 		Optional<Role> userOpt =roleRepository.findByName("ROLE_USER");
 		if (!userOpt.isPresent()) {
-			user = new Role(2l, "ROLE_USER");
+			user = new Role(2L, "ROLE_USER");
 			roleRepository.save(user);
 		} else {
 			user = userOpt.get();
